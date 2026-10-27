@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#A3D13A">
+<meta name="description" content="Line School: alfabetização para pessoas idosas. Nunca é tarde para aprender.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Line School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;800&display=swap">
+<style>
+/* Layout: uma coluna central larga, letras grandes, navegação fixa embaixo com 5 caminhos; destaque de marca-texto lima só no título */
+:root{
+  --bg:#F3F7EA; --surface:#FFFFFF; --ink:#15301A; --muted:#4A6350;
+  --lime:#A3D13A; --lime-soft:#E3F2BF; --lime-ink:#3B7410; --on-lime:#132A0E;
+  --line:#CFDDBA; --guide:#D9E6C6; --sun:#E9A800;
+  --good:#23772B; --good-bg:#DDF2DA; --bad:#B3261E; --bad-bg:#FBE1DE; --focus:#1E5FD6;
+  --f-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --scale:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F170E; --surface:#192516; --ink:#E9F3DD; --muted:#A9BEA0;
+  --lime:#A9DA44; --lime-soft:#2A3D1C; --lime-ink:#BFE878; --on-lime:#132A0E;
+  --line:#2E4228; --guide:#2B3D25; --sun:#F4C542;
+  --good:#86D88D; --good-bg:#1E3A20; --bad:#FF8F85; --bad-bg:#46201C; --focus:#8AB4FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F170E; --surface:#192516; --ink:#E9F3DD; --muted:#A9BEA0;
+  --lime:#A9DA44; --lime-soft:#2A3D1C; --lime-ink:#BFE878; --on-lime:#132A0E;
+  --line:#2E4228; --guide:#2B3D25; --sun:#F4C542;
+  --good:#86D88D; --good-bg:#1E3A20; --bad:#FF8F85; --bad-bg:#46201C; --focus:#8AB4FF; color-scheme:dark}
+
+html{font-size:calc(18px * var(--scale))}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+*{box-sizing:border-box}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+
+.topo{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line)}
+.topo-in{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:.6rem;padding-block:.6rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.marca{display:flex;align-items:center;gap:.5rem;font-family:var(--f-display);font-weight:800;font-size:1.35rem;flex:1;min-width:0;background:none;border:0;padding:0;text-align:left}
+.marca svg{width:2.1rem;height:2.1rem;flex:none}
+.topo .btn{min-height:2.9rem;padding:.4rem .9rem}
+
+.wrap{max-width:46rem;margin:0 auto;padding-block:1.2rem 8rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:1.4rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:3.4rem;padding:.7rem 1.3rem;
+  border-radius:16px;border:2px solid var(--ink);background:var(--surface);font-weight:700;font-size:1.05rem;text-align:center}
+.btn svg{width:1.3em;height:1.3em;flex:none}
+.btn.primary{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.btn.big{min-height:4.2rem;font-size:1.2rem;width:100%}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.link{background:none;border:0;padding:0;color:var(--lime-ink);text-decoration:underline;font-weight:700}
+
+.eyebrow{font-size:1.05rem;color:var(--muted);font-weight:700}
+.hero{display:flex;flex-direction:column;gap:.6rem;padding-top:.4rem}
+.hero h1{font-size:clamp(2.2rem,8vw,3.3rem);font-weight:800}
+mark{background:linear-gradient(transparent 52%,var(--lime) 52%, var(--lime) 92%,transparent 92%);color:inherit;padding:0 .1em}
+
+.painel{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:1.3rem;display:flex;flex-direction:column;gap:.8rem}
+.painel h2{font-size:1.7rem}
+.rot{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-ink)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.stat{border:2px solid var(--line);border-radius:18px;padding:.9rem 1rem;display:flex;flex-direction:column}
+.stat .num{font-family:var(--f-display);font-weight:800;font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .num.sol{color:var(--sun)}
+
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;text-align:left;padding:1.1rem;border-radius:20px;border:2px solid var(--line);background:var(--surface);min-height:8rem}
+.tile .ic{width:3rem;height:3rem;border-radius:14px;background:var(--lime-soft);display:grid;place-items:center;color:var(--lime-ink)}
+.tile .ic svg{width:1.8rem;height:1.8rem}
+.tile b{font-size:1.2rem;font-family:var(--f-display)}
+.tile span{color:var(--muted);font-size:.95rem}
+
+.lista{display:flex;flex-direction:column;gap:.8rem}
+.item{display:flex;align-items:center;gap:1rem;text-align:left;padding:1rem 1.1rem;border-radius:20px;border:2px solid var(--line);background:var(--surface);width:100%}
+.item .amostra{font-family:var(--f-display);font-weight:800;font-size:1.8rem;min-width:4.2rem;height:4.2rem;border-radius:16px;background:var(--lime-soft);color:var(--lime-ink);display:grid;place-items:center;flex:none}
+.item .txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.item .txt b{font-family:var(--f-display);font-size:1.3rem}
+.item .txt span{color:var(--muted)}
+.chip{font-size:.85rem;font-weight:700;padding:.25rem .7rem;border-radius:999px;border:2px solid var(--line);white-space:nowrap}
+.chip.ok{background:var(--good-bg);border-color:var(--good-bg);color:var(--good)}
+
+.barra{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+.pontos{display:flex;gap:.35rem}
+.pontos i{width:.9rem;height:.9rem;border-radius:50%;background:var(--line);display:block}
+.pontos i.on{background:var(--lime)}
+
+.cartao{background:var(--surface);border:2px solid var(--line);border-radius:26px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+.figura{font-size:clamp(4rem,18vw,6rem);line-height:1.1}
+.letrao{font-family:var(--f-display);font-weight:800;font-size:clamp(5rem,26vw,9rem);line-height:.95;color:var(--ink)}
+.letrao.longo{font-size:clamp(2.6rem,12vw,4.4rem);line-height:1.05;word-break:break-word}
+.silabas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.3rem;font-family:var(--f-display);font-weight:800;font-size:1.9rem}
+.sil{padding:.05rem .6rem;border-radius:12px;background:var(--bg)}
+.sil.on{background:var(--lime);color:var(--on-lime)}
+.hif{color:var(--muted)}
+.dica-txt{color:var(--muted);font-size:1rem;max-width:30rem}
+.acoes{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.acoes .full{grid-column:1/-1}
+
+.opcoes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}
+.op{min-height:6rem;border-radius:20px;border:3px solid var(--line);background:var(--surface);font-family:var(--f-display);font-weight:800;font-size:3rem;display:grid;place-items:center}
+.op.emo{font-size:3.4rem}
+.op.certo{border-color:var(--good);background:var(--good-bg);color:var(--good)}
+.op.errado{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);opacity:.7}
+.op.dica{border-color:var(--lime);box-shadow:0 0 0 4px var(--lime-soft)}
+.op:disabled{cursor:default}
+.palavra-oculta{font-family:var(--f-display);font-weight:800;font-size:clamp(2.4rem,11vw,3.6rem);letter-spacing:.06em}
+.palavra-oculta u{text-decoration:none;color:var(--lime-ink);border-bottom:5px solid var(--lime);display:inline-block;min-width:.8em}
+.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;min-height:4.6rem}
+.slot{min-width:4.4rem;min-height:4.4rem;border:3px dashed var(--line);border-radius:16px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:2rem;padding:0 .5rem}
+.slot.cheio{border-style:solid;border-color:var(--lime);background:var(--lime-soft)}
+.slots.erro .slot.cheio{border-color:var(--bad);background:var(--bad-bg);animation:tremer .4s}
+.slots.certo .slot.cheio{border-color:var(--good);background:var(--good-bg)}
+.opcoes.sil-ops{grid-template-columns:repeat(auto-fit,minmax(5.5rem,1fr))}
+.opcoes.sil-ops .op{font-size:2rem;min-height:4.6rem}
+@keyframes tremer{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.placa{border-radius:14px;padding:1.2rem 1.6rem;background:#1F6B3A;color:#FFFFFF;border:5px solid #FFFFFF;box-shadow:0 0 0 3px #1F6B3A;font-family:var(--f-body);font-weight:700;font-size:clamp(1.7rem,8vw,2.6rem);letter-spacing:.05em;text-align:center;max-width:100%}
+.placa.azul{background:#1D4E9E;box-shadow:0 0 0 3px #1D4E9E}
+.placa.vermelha{background:#B42318;box-shadow:0 0 0 3px #B42318}
+
+.feedback{min-height:1.6rem;font-weight:700;font-size:1.15rem;text-align:center}
+.feedback.bom{color:var(--good)}
+.feedback.mal{color:var(--bad)}
+
+.letras-esc{display:flex;flex-wrap:wrap;gap:.5rem}
+.letras-esc button{min-width:3.4rem;min-height:3.4rem;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-family:var(--f-display);font-weight:800;font-size:1.5rem}
+.letras-esc button[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.caderno{border:2px solid var(--line);border-radius:22px;overflow:hidden;background:var(--surface)}
+.caderno canvas{display:block;width:100%;touch-action:none}
+
+.chat{display:flex;flex-direction:column;gap:.8rem}
+.msg{max-width:88%;padding:.9rem 1.1rem;border-radius:20px;font-size:1.1rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.lia{align-self:flex-start;background:var(--surface);border:2px solid var(--line);border-bottom-left-radius:6px}
+.msg.eu{align-self:flex-end;background:var(--lime-soft);border-bottom-right-radius:6px}
+.msg .quem{display:block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-ink);margin-bottom:.2rem}
+.msg .link{margin-top:.5rem;display:inline-block;font-size:1rem}
+.sugs{display:flex;flex-wrap:wrap;gap:.5rem}
+.sugs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:.6rem 1rem;font-weight:700;min-height:3rem;text-align:left}
+.envio{display:flex;gap:.6rem}
+.envio input{flex:1;min-width:0;min-height:3.4rem;border-radius:16px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:1.1rem;padding:0 1rem}
+
+.campo{display:flex;flex-direction:column;gap:.4rem}
+.campo label{font-weight:700}
+.campo input{min-height:3.4rem;border-radius:16px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:1.15rem;padding:0 1rem}
+.grupo{display:flex;flex-wrap:wrap;gap:.5rem}
+.grupo .btn[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:2px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-in{max-width:46rem;margin:0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.55rem .1rem .6rem;font-size:.8rem;font-weight:700;color:var(--muted);min-width:0}
+.nav button svg{width:1.7rem;height:1.7rem}
+.nav button[aria-current="page"]{color:var(--ink)}
+.nav button[aria-current="page"] .pill{background:var(--lime);color:var(--on-lime)}
+.nav .pill{display:grid;place-items:center;width:3.4rem;height:2.1rem;border-radius:999px}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(6.5rem + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:.8rem 1.2rem;border-radius:14px;font-weight:700;max-width:calc(100% - 32px);z-index:20}
+.festa{text-align:center;align-items:center}
+.selo{width:2.7rem;height:2.7rem;border-radius:50%;background:var(--lime);color:var(--on-lime);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.4rem;flex:none;font-variant-numeric:tabular-nums}
+.selo.off{background:var(--line);color:var(--muted)}
+.nivel-topo{display:flex;align-items:center;gap:.8rem}
+.nivel-h{display:flex;align-items:center;gap:.7rem;margin-top:.6rem}
+.nivel-h h2{font-size:1.5rem}
+.progresso{height:.9rem;border-radius:999px;background:var(--line);overflow:hidden}
+.progresso i{display:block;height:100%;background:var(--lime);border-radius:999px}
+.req{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem}
+.req li{display:flex;gap:.6rem;align-items:flex-start}
+.ck{width:1.6rem;height:1.6rem;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;font-weight:800;font-size:.9rem;margin-top:.1rem}
+.req li.ok .ck{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.req li.ok{color:var(--muted)}
+.painel.bloq{border-style:dashed;gap:.5rem}
+.painel.novo{border-color:var(--lime);background:var(--lime-soft)}
+.item:disabled{opacity:.55;cursor:default}
+.item:disabled .amostra{background:var(--line);color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.opcoes.quatro{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opcoes.pal-ops{grid-template-columns:1fr}
+.op.pal{font-family:var(--f-body);font-size:1.35rem;min-height:4rem;padding:.5rem 1rem;letter-spacing:.03em;overflow-wrap:anywhere}
+.frase{font-family:var(--f-display);font-weight:800;font-size:clamp(1.5rem,6vw,2.2rem);line-height:1.4;text-align:center;text-wrap:balance}
+.frase u{text-decoration:none;border-bottom:5px solid var(--lime);color:var(--lime-ink);padding:0 .2em}
+.pal-chip{display:inline-block;padding:0 .3rem;border-radius:10px;background:var(--bg)}
+.bilhete{max-width:26rem;width:100%;background-color:var(--surface);border:2px solid var(--line);border-radius:6px;padding:.6rem 1.2rem;
+  font-weight:700;font-size:1.35rem;line-height:2.2rem;letter-spacing:.02em;text-align:left;transform:rotate(-1deg);
+  background-image:repeating-linear-gradient(transparent 0 calc(2.2rem - 2px),var(--line) calc(2.2rem - 2px) 2.2rem)}
+.pergunta{font-weight:700;font-size:1.25rem;text-align:center}
+.estrelas{font-size:2.6rem;color:var(--sun);letter-spacing:.1em}
+@media (max-width:420px){.tiles{grid-template-columns:1fr 1fr}.acoes{grid-template-columns:1fr}.opcoes .op{min-height:5rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="topo"><div class="topo-in">
+  <button class="marca" data-go="inicio" aria-label="Line School, tela inicial">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="var(--lime)"/><g stroke="var(--on-lime)" stroke-width="2" stroke-linecap="round" opacity=".45"><line x1="8" y1="12" x2="32" y2="12"/><line x1="8" y1="20" x2="32" y2="20" stroke-dasharray="3 3"/><line x1="8" y1="28" x2="32" y2="28"/></g><path d="M10 28c3-1 5-9 7-14s4-3 3 2-3 11 1 12 6-5 9-6" fill="none" stroke="var(--on-lime)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Line School</span>
+  </button>
+  <button class="btn" data-act="guia" aria-label="Ouvir as instruções desta tela">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>Ouvir
+  </button>
+  <button class="btn" data-go="ajustes" aria-label="Ajustes: nome e tamanho das letras">Aa</button>
+</div></header>
+
+<main class="wrap" id="tela" aria-live="polite"></main>
+
+<nav class="nav" aria-label="Caminhos"><div class="nav-in" id="nav"></div></nav>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const ICON={
+ inicio:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+ aulas:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 8h6"/>',
+ jogos:'<path d="M9 3h6v4a2 2 0 1 0 0 4v0h4v6h-4a2 2 0 1 0-4 0H5v-6a2 2 0 1 0 0-4V3h4"/>',
+ escrever:'<path d="M15 4l5 5L9 20H4v-5z"/><path d="M13 6l5 5"/>',
+ lia:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/>'
+};
+const svg=(k,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const SOM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+
+/* ---------- Conteúdo pedagógico ---------- */
+const VOGAIS=[
+ {t:'A',p:'arroz',s:['AR','ROZ'],e:'🍚'},
+ {t:'E',p:'emprego',s:['EM','PRE','GO'],e:'💼'},
+ {t:'I',p:'igreja',s:['I','GRE','JA'],e:'⛪'},
+ {t:'O',p:'óculos',s:['Ó','CU','LOS'],e:'👓'},
+ {t:'U',p:'urna',s:['UR','NA'],e:'🗳️'}];
+/* Famílias silábicas: 'SÍLABA|palavra|SI-LA-BAS|figura' */
+const FAMILIAS={
+ B:['BA|batata|BA-TA-TA|🥔','BE|benefício|BE-NE-FÍ-CI-O|📄','BI|bilhete|BI-LHE-TE|🎫','BO|boleto|BO-LE-TO|🧾','BU|bula|BU-LA|📋'],
+ C:['CA|café|CA-FÉ|☕','CE|cebola|CE-BO-LA|🧅','CI|cidade|CI-DA-DE|🏙️','CO|comida|CO-MI-DA|🍽️','CU|curativo|CU-RA-TI-VO|🩹'],
+ D:['DA|data|DA-TA|📅','DE|depósito|DE-PÓ-SI-TO|🏦','DI|dinheiro|DI-NHEI-RO|💵','DO|documento|DO-CU-MEN-TO|🗂️','DU|ducha|DU-CHA|🚿'],
+ F:['FA|farinha|FA-RI-NHA|🌾','FE|fechado|FE-CHA-DO|🔒','FI|fila|FI-LA|👥','FO|fogão|FO-GÃO|🔥','FU|fumaça|FU-MA-ÇA|💨'],
+ G:['GA|galinha|GA-LI-NHA|🐔','GE|geladeira|GE-LA-DEI-RA|🧊','GI|ginástica|GI-NÁS-TI-CA|🧘','GO|governo|GO-VER-NO|🏛️','GU|guaraná|GUA-RA-NÁ|🥤'],
+ H:['HA|habitante|HA-BI-TAN-TE|🏘️','HE|herança|HE-RAN-ÇA|📜','HI|higiene|HI-GI-E-NE|🧼','HO|hora|HO-RA|⏰','HU|humor|HU-MOR|😊'],
+ J:['JA|janela|JA-NE-LA|🪟','JE|jejum|JE-JUM|🕐','JI|jiló|JI-LÓ|🍆','JO|joelho|JO-E-LHO|🦵','JU|juiz|JU-IZ|⚖️'],
+ L:['LA|lata|LA-TA|🥫','LE|legume|LE-GU-ME|🥕','LI|limão|LI-MÃO|🍋','LO|loja|LO-JA|🏪','LU|luva|LU-VA|🧤'],
+ M:['MA|mala|MA-LA|🧳','ME|médico|MÉ-DI-CO|🩺','MI|milho|MI-LHO|🌽','MO|moeda|MO-E-DA|🪙','MU|mulher|MU-LHER|👩'],
+ N:['NA|natal|NA-TAL|🎄','NE|neto|NE-TO|👦','NI|ninho|NI-NHO|🐦','NO|nota|NO-TA|💵','NU|número|NÚ-ME-RO|🔢'],
+ P:['PA|padaria|PA-DA-RI-A|🍞','PE|pepino|PE-PI-NO|🥒','PI|pia|PI-A|🚰','PO|polícia|PO-LÍ-CI-A|🚓','PU|pudim|PU-DIM|🍮'],
+ Q:['QUA|quadro|QUA-DRO|🖼️','QUE|queijo|QUEI-JO|🧀','QUI|quilo|QUI-LO|⚖️'],
+ R:['RA|rádio|RÁ-DI-O|📻','RE|relógio|RE-LÓ-GI-O|⌚','RI|rio|RI-O|🏞️','RO|rodoviária|RO-DO-VI-Á-RI-A|🚏','RU|rua|RU-A|🛣️'],
+ S:['SA|sabão|SA-BÃO|🧼','SE|semana|SE-MA-NA|📆','SI|sinal|SI-NAL|🚦','SO|sofá|SO-FÁ|🛋️','SU|suco|SU-CO|🧃'],
+ T:['TA|tapioca|TA-PI-O-CA|🥞','TE|telefone|TE-LE-FO-NE|☎️','TI|tijolo|TI-JO-LO|🧱','TO|tomate|TO-MA-TE|🍅','TU|túnel|TÚ-NEL|🚇'],
+ V:['VA|vacina|VA-CI-NA|💉','VE|vela|VE-LA|🕯️','VI|vizinho|VI-ZI-NHO|🏘️','VO|voto|VO-TO|🗳️'],
+ X:['XA|xarope|XA-RO-PE|🧴','XE|xerox|XE-ROX|🖨️','XI|xícara|XÍ-CA-RA|☕','XO|xodó|XO-DÓ|❤️'],
+ Z:['ZA|zagueiro|ZA-GUEI-RO|⚽','ZE|zero|ZE-RO|0️⃣','ZI|zíper|ZÍ-PER|👖','ZO|zona|ZO-NA|🗺️']
+};
+const cartoes=lista=>lista.map(x=>{const [t,p,s,e]=x.split('|');return {t,p,s:s.split('-'),e}});
+const DIA=[
+ {t:'CASA',p:'casa',s:['CA','SA'],e:'🏠'},
+ {t:'FEIRA',p:'feira',s:['FEI','RA'],e:'🛒'},
+ {t:'SALÁRIO',p:'salário',s:['SA','LÁ','RI','O'],e:'💰'},
+ {t:'REMÉDIO',p:'remédio',s:['RE','MÉ','DI','O'],e:'💊'},
+ {t:'ÔNIBUS',p:'ônibus',s:['Ô','NI','BUS'],e:'🚌'},
+ {t:'FAMÍLIA',p:'família',s:['FA','MÍ','LI','A'],e:'👪'}];
+const LICOES=[
+ {id:'vogais',titulo:'As vogais',sub:'A, E, I, O, U',amostra:'AEI',cards:VOGAIS},
+ ...Object.entries(FAMILIAS).map(([l,lista])=>{const cards=cartoes(lista);
+   return {id:l==='B'?'b':'fam-'+l.toLowerCase(),titulo:`A família do ${l}`,sub:cards.map(c=>c.t).join(', ')+(l==='H'?' · o H não tem som':''),amostra:cards[0].t,cards}}),
+ {id:'dia',titulo:'Palavras do dia a dia',sub:'Casa, feira, salário, remédio…',amostra:'CA',cards:DIA}];
+/* Nível 4: frases do cotidiano */
+const FRASES=[['O ÔNIBUS PASSA ÀS SETE HORAS.','🚌'],['TOMAR O REMÉDIO DEPOIS DO ALMOÇO.','💊'],['O BOLETO VENCE NA SEXTA.','🧾'],
+ ['COMPREI ARROZ E FEIJÃO NA FEIRA.','🛒'],['MINHA NETA VEM NO DOMINGO.','👧'],['A VACINA É NO POSTO DE SAÚDE.','💉']]
+ .map(([t,e])=>({t,p:t.toLowerCase(),s:[],w:t.replace(/[.,]/g,'').split(' '),e,frase:true}));
+LICOES.forEach(l=>l.nivel=l.id==='vogais'?1:l.id==='dia'?3:2);
+LICOES.push({id:'frases',titulo:'Frases do dia a dia',sub:'Ler frases curtas, palavra por palavra',amostra:'Aa',cards:FRASES,nivel:4});
+const TODOS=LICOES.filter(l=>l.nivel<4).flatMap(l=>l.cards);
+const FAMS=LICOES.filter(l=>l.nivel===2);
+const COMPLETAR=[
+ {f:'O ÔNIBUS PASSA ÀS SETE ___.',r:'HORAS',ops:['HORAS','FEIRAS','CASAS'],e:'🚌'},
+ {f:'TOMAR O ___ DEPOIS DO ALMOÇO.',r:'REMÉDIO',ops:['REMÉDIO','RELÓGIO','RÁDIO'],e:'💊'},
+ {f:'O ___ VENCE NA SEXTA.',r:'BOLETO',ops:['BOLETO','TOMATE','SOFÁ'],e:'🧾'},
+ {f:'COMPREI ARROZ NA ___.',r:'FEIRA',ops:['FEIRA','JANELA','NUVEM'],e:'🛒'},
+ {f:'A VACINA É NO POSTO DE ___.',r:'SAÚDE',ops:['SAÚDE','SABÃO','SOFÁ'],e:'💉'},
+ {f:'VOU AO BANCO TIRAR ___.',r:'DINHEIRO',ops:['DINHEIRO','DOMINGO','DUCHA'],e:'🏦'},
+ {f:'O MÉDICO PEDIU ___ PARA O EXAME.',r:'JEJUM',ops:['JEJUM','JANELA','JILÓ'],e:'🩺'}];
+const RECADOS=[
+ {txt:'CONSULTA COM O DENTISTA NA TERÇA, ÀS 9 HORAS.',q:'Em que dia é a consulta?',r:'TERÇA',ops:['TERÇA','SÁBADO','DOMINGO']},
+ {txt:'MÃE, CHEGO PARA O ALMOÇO NO DOMINGO. BEIJOS, ANA.',q:'Quem vai chegar no domingo?',r:'ANA',ops:['ANA','JOSÉ','PEDRO']},
+ {txt:'A CONTA DE LUZ VENCE NO DIA 10.',q:'Qual conta vai vencer?',r:'LUZ',ops:['LUZ','ÁGUA','GÁS']},
+ {txt:'REUNIÃO DA ASSOCIAÇÃO NA QUINTA, ÀS 7 DA NOITE.',q:'Que horas é a reunião?',r:'7 DA NOITE',ops:['7 DA NOITE','7 DA MANHÃ','MEIO-DIA']},
+ {txt:'A FEIRA DE SÁBADO VAI SER NA PRAÇA DA IGREJA.',q:'Onde vai ser a feira?',r:'PRAÇA',ops:['PRAÇA','ESCOLA','RODOVIÁRIA']},
+ {txt:'VACINA DA GRIPE NO POSTO DE SAÚDE ATÉ SEXTA.',q:'O que tem no posto de saúde?',r:'VACINA',ops:['VACINA','FEIRA','MISSA']}];
+const PLACAS=[
+ {txt:'FARMÁCIA',e:'💊',nome:'farmácia',cor:''},
+ {txt:'PONTO DE ÔNIBUS',e:'🚌',nome:'ponto de ônibus',cor:'azul'},
+ {txt:'BANHEIRO',e:'🚻',nome:'banheiro',cor:'azul'},
+ {txt:'SAÍDA',e:'🚪',nome:'saída',cor:''},
+ {txt:'PADARIA',e:'🍞',nome:'padaria',cor:''},
+ {txt:'HOSPITAL',e:'🏥',nome:'hospital',cor:'vermelha'}];
+const LETRAS='ABCDEFGHIJLMNOPQRSTUVXZ'.split('');
+
+/* ---------- Estado ---------- */
+const CHAVE='limeschool-v1';
+let S={nome:'Maria',nomeExemplo:true,estrelas:0,feitas:{},jogos:{},nivelVisto:1,demo:false,escala:1,vel:0.85};
+try{const r=localStorage.getItem(CHAVE);if(r)Object.assign(S,JSON.parse(r))}catch(e){}
+S.jogos=S.jogos||{};
+function salvar(){try{localStorage.setItem(CHAVE,JSON.stringify(S))}catch(e){}}
+let vista='inicio', aula={id:'vogais',i:0}, J=null, escLetra='A', chat=[], confirmaApagar=false, pensando=false, novoNivel=0;
+
+/* ---------- Níveis e desbloqueios ---------- */
+const melhor=t=>S.jogos[t]||0;
+const famFeitas=()=>FAMS.filter(f=>S.feitas[f.id]).length;
+const NIVEIS=[
+ {n:1,nome:'Primeiras letras',desc:'As vogais, a primeira letra das palavras e a escrita das vogais.',req:[]},
+ {n:2,nome:'Sílabas',desc:'As famílias silábicas, o jogo Monte a palavra e novas letras para escrever.',req:[
+   {txt:'Terminar a aula das vogais',ok:()=>!!S.feitas.vogais},
+   {txt:'Acertar 3 de primeira no jogo Que letra começa?',ok:()=>melhor('letra')>=3}]},
+ {n:3,nome:'Palavras',desc:'Palavras do dia a dia, o jogo Leia a placa, palavras mais longas, uma sílaba a mais para confundir e a escrita do seu nome.',req:[
+   {txt:'Terminar 6 famílias silábicas',ok:()=>famFeitas()>=6,prog:()=>`${Math.min(famFeitas(),6)} de 6`},
+   {txt:'Acertar 3 de primeira no jogo Monte a palavra',ok:()=>melhor('montar')>=3}]},
+ {n:4,nome:'Frases',desc:'Ler frases inteiras, completar frases, entender recados e escrever palavras.',req:[
+   {txt:'Terminar a aula Palavras do dia a dia',ok:()=>!!S.feitas.dia},
+   {txt:'Acertar 3 de primeira no jogo Leia a placa',ok:()=>melhor('placa')>=3}]}];
+const JOGOS=[
+ {tipo:'letra',nivel:1,amostra:'A?',nome:'Que letra começa?',desc:'Escute a palavra e escolha a primeira letra'},
+ {tipo:'montar',nivel:2,amostra:'CA·SA',nome:'Monte a palavra',desc:'Junte as sílabas na ordem certa'},
+ {tipo:'placa',nivel:3,amostra:'🚏',nome:'Leia a placa',desc:'Placas da rua, da farmácia, do ônibus'},
+ {tipo:'completar',nivel:4,amostra:'___',nome:'Complete a frase',desc:'Escolha a palavra que falta'},
+ {tipo:'recado',nivel:4,amostra:'✉︎',nome:'Entenda o recado',desc:'Leia um bilhete e responda'}];
+function realNivel(){let n=1;for(const nv of NIVEIS.slice(1)){if(nv.req.every(r=>r.ok()))n=nv.n;else break}return n}
+function nivelAtual(){return S.demo?4:realNivel()}
+function licaoAberta(l){
+  if(S.demo)return true;
+  if(l.nivel>nivelAtual())return false;
+  if(l.nivel===2){const i=FAMS.indexOf(l);return i===0||!!S.feitas[FAMS[i-1].id]}
+  return true;
+}
+function checarNivel(){const n=realNivel();if(n>(S.nivelVisto||1)){S.nivelVisto=n;salvar();novoNivel=n}}
+const CAD='<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const CAD_ABERTO='<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>';
+function listaReq(nv){return `<ul class="req">${nv.req.map(r=>{const ok=r.ok();
+  return `<li class="${ok?'ok':''}"><span class="ck" aria-hidden="true">${ok?'✓':''}</span><span>${r.txt}${!ok&&r.prog?` (${r.prog()})`:''}${ok?'<span class="sr"> (feito)</span>':''}</span></li>`}).join('')}</ul>`}
+function bannerNivel(){if(!novoNivel)return '';const nv=NIVEIS[novoNivel-1];
+  return `<div class="painel novo"><span class="rot">${CAD_ABERTO} Novo nível aberto</span><h2>Nível ${nv.n} · ${nv.nome}</h2><p>${nv.desc}</p></div>`}
+function falaNivel(){return novoNivel?` E você abriu o nível ${novoNivel}: ${NIVEIS[novoNivel-1].nome}!`:''}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const semAcento=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'');
+function saudacao(){const h=new Date().getHours();return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'}
+function aplicarEscala(){document.documentElement.style.setProperty('--scale',S.escala)}
+aplicarEscala();
+
+let toastT;
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,3200)}
+
+/* ---------- Voz ---------- */
+let avisouSom=false, falaId=0;
+function temVoz(){
+  if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==='undefined'){if(!avisouSom){toast('Este aparelho não consegue falar em voz alta.');avisouSom=true}return false}
+  return true;
+}
+function frase(t){
+  const s=window.speechSynthesis;
+  const u=new SpeechSynthesisUtterance(t);u.lang='pt-BR';u.rate=S.vel;
+  const v=s.getVoices().find(v=>(v.lang||'').toLowerCase().replace('_','-').startsWith('pt-br'))||s.getVoices().find(v=>(v.lang||'').toLowerCase().startsWith('pt'));
+  if(v)u.voice=v;
+  return u;
+}
+function falar(t){falarSeq([t])}
+/* Fala uma sequência: textos são falados; números são pausas em milissegundos */
+function falarSeq(itens){
+  try{
+    if(!temVoz())return;
+    const id=++falaId, s=window.speechSynthesis;
+    s.cancel();
+    let i=0;
+    const passo=()=>{
+      if(id!==falaId||i>=itens.length)return;
+      const it=itens[i++];
+      if(typeof it==='number')return setTimeout(passo,it);
+      const u=frase(it);let foi=false;
+      const prox=()=>{if(!foi){foi=true;passo()}};
+      u.onend=prox;u.onerror=prox;
+      s.speak(u);
+    };
+    passo();
+  }catch(e){}
+}
+try{window.speechSynthesis&&window.speechSynthesis.getVoices()}catch(e){}
+
+/* ---------- IA (Lia) ---------- */
+const liaPronta=(window.claude&&window.claude.use)?window.claude.use('sample').catch(()=>null):Promise.resolve(null);
+
+/* ---------- Navegação ---------- */
+const NAV=[['inicio','Início'],['aulas','Aulas'],['jogos','Jogos'],['escrever','Escrever'],['lia','Lia']];
+function desenharNav(){
+  const ativa={aula:'aulas',parabens:'aulas',jogo:'jogos',fimjogo:'jogos',ajustes:''}[vista]??vista;
+  $('#nav').innerHTML=NAV.map(([k,r])=>`<button data-go="${k}" ${ativa===k?'aria-current="page"':''}><span class="pill">${svg(k)}</span>${r}</button>`).join('');
+}
+function ir(v){vista=v;confirmaApagar=false;if(v!=='parabens'&&v!=='fimjogo')novoNivel=0;render();window.scrollTo(0,0)}
+function render(){
+  const f={inicio:vInicio,aulas:vAulas,aula:vAula,parabens:vParabens,jogos:vJogos,jogo:vJogo,fimjogo:vFimJogo,escrever:vEscrever,lia:vLia,ajustes:vAjustes}[vista];
+  $('#tela').innerHTML=f();desenharNav();
+  if(vista==='escrever')montarCaderno();
+  if(vista==='lia'){const l=$('#log');if(l)l.lastElementChild?.scrollIntoView({block:'nearest'})}
+}
+
+/* ---------- Telas ---------- */
+function vInicio(){
+  const n=nivelAtual(),nv=NIVEIS[n-1],seg=NIVEIS[n];
+  const abertas=LICOES.filter(licaoAberta);
+  const prox=abertas.find(l=>!S.feitas[l.id])||abertas[abertas.length-1];
+  const feitas=LICOES.filter(l=>S.feitas[l.id]).length;
+  const reqOk=seg?seg.req.filter(r=>r.ok()).length:0;
+  return `<section class="hero">
+    <p class="eyebrow">${saudacao()}, ${esc(S.nome)}! ${S.nomeExemplo?'<button class="link" data-go="ajustes">Mudar o nome</button>':''}</p>
+    <h1>Nunca é tarde para <mark>aprender</mark></h1>
+  </section>
+  <article class="painel">
+    <span class="rot">${S.feitas[prox.id]?'Revisar':'Sua próxima aula'}</span>
+    <h2>${prox.titulo}</h2>
+    <p class="eyebrow">${prox.sub}</p>
+    <button class="btn primary big" data-licao="${prox.id}">Começar a aula</button>
+  </article>
+  <article class="painel">
+    <div class="nivel-topo"><span class="selo">${n}</span><div><span class="rot">Seu nível</span><h2>${nv.nome}</h2></div></div>
+    ${S.demo?'<p>O modo demonstração está ligado: todos os níveis estão abertos.</p>':seg?`<p>Para abrir o <b>nível ${seg.n} · ${seg.nome}</b>:</p>
+      <div class="progresso" role="progressbar" aria-label="Caminho até o próximo nível" aria-valuemin="0" aria-valuemax="${seg.req.length}" aria-valuenow="${reqOk}"><i style="width:${reqOk/seg.req.length*100}%"></i></div>
+      ${listaReq(seg)}`:'<p>Você abriu todos os níveis. Continue praticando para ganhar estrelas.</p>'}
+  </article>
+  <div class="stats">
+    <div class="stat"><span class="num sol">★ ${S.estrelas}</span><span>estrelas ganhas</span></div>
+    <div class="stat"><span class="num">${feitas} de ${LICOES.length}</span><span>aulas feitas</span></div>
+  </div>
+  <div class="tiles">
+    ${[['aulas','Aulas','Letras e palavras'],['jogos','Jogos','Praticar com desafios'],['escrever','Escrever','Treine com o dedo'],['lia','Lia','Sua ajudante']].map(([k,b,s])=>
+      `<button class="tile" data-go="${k}"><span class="ic">${svg(k)}</span><b>${b}</b><span>${s}</span></button>`).join('')}
+  </div>`;
+}
+function itemLicao(l){
+  const ab=licaoAberta(l),feita=!!S.feitas[l.id];
+  return `<button class="item" data-licao="${l.id}" ${ab?'':'disabled'}>
+    <span class="amostra">${ab?l.amostra:CAD}</span>
+    <span class="txt"><b>${l.titulo}</b><span>${ab?`${l.sub} · ${l.cards.length} cartões`:'Abre quando você terminar a aula anterior'}</span></span>
+    <span class="chip ${feita?'ok':''}">${feita?'Feita':ab?'Nova':'Fechada'}</span></button>`;
+}
+function vAulas(){
+  const n=nivelAtual();
+  return `<h1 style="font-size:2.2rem">Aulas</h1>
+  <p class="eyebrow">As aulas abrem aos poucos, conforme você avança.</p>
+  ${NIVEIS.map(nv=>{const ls=LICOES.filter(l=>l.nivel===nv.n),ab=nv.n<=n;
+    return `<section class="lista">
+      <div class="nivel-h"><span class="selo ${ab?'':'off'}">${nv.n}</span><h2>${nv.nome}</h2></div>
+      ${ab?ls.map(itemLicao).join(''):`<div class="painel bloq"><p><b>${CAD} Nível fechado</b> · ${ls.length} aula${ls.length>1?'s':''}</p>
+        ${nv.n===n+1?`<p>Para abrir:</p>${listaReq(nv)}`:`<p>Abre depois do nível ${nv.n-1}.</p>`}</div>`}
+    </section>`}).join('')}`;
+}
+function cartaoAtual(){const l=LICOES.find(x=>x.id===aula.id);return [l,l.cards[aula.i]]}
+function vAula(){
+  const [l,c]=cartaoAtual(), ult=aula.i===l.cards.length-1;
+  return `<div class="barra"><button class="btn" data-go="aulas">← Aulas</button>
+    <div class="pontos" aria-label="Cartão ${aula.i+1} de ${l.cards.length}">${l.cards.map((_,k)=>`<i class="${k<=aula.i?'on':''}"></i>`).join('')}</div></div>
+  <div class="cartao">
+    <span class="rot">${l.titulo}</span>
+    <div class="figura" aria-hidden="true">${c.e}</div>
+    ${c.frase?`<p class="frase">${c.w.map(w=>`<span class="pal-chip">${w}</span>`).join(' ')}</p>
+    <p class="dica-txt">Leia palavra por palavra. Depois, a frase inteira.</p>`:`
+    <div class="letrao ${c.t.length>2?'longo':''}">${c.t}</div>
+    <div class="silabas" aria-label="Sílabas">${c.s.map((s,k)=>`<span class="sil ${k===0?'on':''}">${s}</span>`).join('<span class="hif">-</span>')}</div>
+    <p class="dica-txt">${c.t.length<=2?`<b>${c.t}</b> é o começo de <b>${c.p.toUpperCase()}</b>.`:`Leia junto, devagar: ${c.s.join(' – ')}.`}</p>`}
+  </div>
+  <div class="acoes">
+    <button class="btn primary big full" data-act="ouvir-cartao">${SOM} Ouvir</button>
+    <button class="btn" data-act="ant" ${aula.i===0?'disabled':''}>Anterior</button>
+    <button class="btn" data-act="prox">${ult?'Terminar aula':'Próximo'}</button>
+  </div>`;
+}
+function falarCartao(){
+  const [,c]=cartaoAtual();
+  if(c.frase){const ws=[];c.w.forEach(w=>ws.push(w.toLowerCase(),450));ws.pop();
+    return falarSeq(['Leia junto, palavra por palavra.',800,...ws,1300,c.p])}
+  const abertura=c.t.length<=2?`${c.t.toLowerCase()} é o começo de ${c.p}.`:`Leia junto, devagar: ${c.p}.`;
+  const silabas=[];c.s.forEach(s=>{silabas.push(s.toLowerCase(),450)});
+  silabas.pop();
+  falarSeq([abertura,900,...silabas,1300,c.p+'.']);
+}
+function vParabens(){
+  const l=LICOES.find(x=>x.id===aula.id);
+  return `<div class="painel festa"><div class="estrelas">★★★</div><h2>Parabéns, ${esc(S.nome)}!</h2>
+  <p>Você terminou a aula <b>${l.titulo}</b> e ganhou 3 estrelas.</p></div>
+  ${bannerNivel()}
+  <div class="acoes"><button class="btn primary big full" data-jogo="${{1:'letra',2:'montar',3:'placa',4:'completar'}[l.nivel]}">Praticar com um jogo</button>
+  <button class="btn full" data-go="aulas">Voltar para as aulas</button></div>`;
+}
+function vJogos(){
+  const n=nivelAtual();
+  return `<h1 style="font-size:2.2rem">Jogos</h1>
+  <p class="eyebrow">Cinco rodadas por jogo. Os jogos ficam mais desafiadores conforme o seu nível.</p>
+  <div class="lista">${JOGOS.map(j=>{const ab=j.nivel<=n;
+    return `<button class="item" data-jogo="${j.tipo}" ${ab?'':'disabled'}><span class="amostra">${ab?j.amostra:CAD}</span>
+      <span class="txt"><b>${j.nome}</b><span>${ab?j.desc+(melhor(j.tipo)?` · seu melhor: ${melhor(j.tipo)} de 5`:''):`Abre no nível ${j.nivel} · ${NIVEIS[j.nivel-1].nome}`}</span></span>
+      ${ab?'':`<span class="chip">Nível ${j.nivel}</span>`}</button>`}).join('')}</div>`;
+}
+
+/* ---------- Motor de jogos (com ajuda adaptativa e dificuldade por nível) ---------- */
+function iniciarJogo(tipo){
+  const j=JOGOS.find(x=>x.tipo===tipo);
+  if(j&&j.nivel>nivelAtual()){toast(`Este jogo abre no nível ${j.nivel}.`);return}
+  J={tipo,rodada:0,acertos:0,total:5,usados:[],nivel:nivelAtual()};novaRodada();ir('jogo');setTimeout(falarRodada,250)}
+function cartasAbertas(){return LICOES.filter(l=>l.nivel<4&&licaoAberta(l)).flatMap(l=>l.cards)}
+function opsTexto(cls){return J.ops.map((o,k)=>`<button class="op ${cls} ${J.fim&&o===J.certa?'certo':''} ${J.errados.includes(o)?'errado':''}" data-op="${k}" ${J.fim||J.errados.includes(o)?'disabled':''}>${o}</button>`).join('')}
+function sortear(pool){const livres=pool.filter(x=>!J.usados.includes(x));const it=shuffle(livres.length?livres:pool)[0];J.usados.push(it);return it}
+function novaRodada(){
+  Object.assign(J,{erros:0,errados:[],resp:[],fim:false,bloq:false,msg:'',classe:'',slotEstado:''});
+  if(J.tipo==='letra'){
+    /* Nível 1: só vogais, 3 opções. Nível 2: todas as letras. Nível 3+: 4 opções */
+    const c=sortear(cartasAbertas());const ini=semAcento(c.p[0].toUpperCase());
+    const fonte=J.nivel===1?['A','E','I','O','U']:LETRAS, nOps=J.nivel>=3?4:3;
+    J.item=c;J.certa=ini;J.ops=shuffle([ini,...shuffle(fonte.filter(x=>x!==ini)).slice(0,nOps-1)])}
+  if(J.tipo==='montar'){
+    /* Nível 2: palavras de até 3 sílabas. Nível 3+: palavras longas e uma sílaba a mais para confundir */
+    let pool=cartasAbertas().filter(c=>c.s.length>=2&&(J.nivel>=3||c.s.length<=3));
+    if(pool.length<5)pool=TODOS.filter(c=>c.s.length>=2&&c.s.length<=3);
+    const c=sortear(pool);J.item=c;
+    const base=c.s.map((s,i)=>({s,i}));
+    if(J.nivel>=3){const extra=shuffle(TODOS.flatMap(x=>x.s).filter(s=>!c.s.includes(s)))[0];base.push({s:extra,i:-1})}
+    let o;for(let k=0;k<10;k++){o=shuffle(base);if(o.map(x=>x.s).join()!==c.s.join())break}J.ops=o}
+  if(J.tipo==='placa'){const p=sortear(PLACAS);J.item=p;J.ops=shuffle([p,...shuffle(PLACAS.filter(x=>x!==p)).slice(0,2)])}
+  if(J.tipo==='completar'||J.tipo==='recado'){const q=sortear(J.tipo==='completar'?COMPLETAR:RECADOS);J.item=q;J.certa=q.r;J.ops=shuffle(q.ops)}
+}
+function falarRodada(){
+  if(!J)return;const c=J.item;
+  if(J.tipo==='letra')falar(`Qual letra começa a palavra ${c.p}?`);
+  if(J.tipo==='montar'){
+    const sil=[];c.s.forEach(s=>sil.push(s.toLowerCase(),550));sil.pop();
+    falarSeq([...sil,1100,c.p+'.',700,`Agora monte a palavra ${c.p}. Toque nas sílabas na ordem.`]);
+  }
+  if(J.tipo==='placa')falar('O que está escrito nesta placa? Toque na figura certa.');
+  if(J.tipo==='completar')falarSeq(['Complete a frase.',600,c.f.replace('___','...').toLowerCase(),900,'Qual palavra falta? Leia as opções e toque na certa.']);
+  if(J.tipo==='recado')falarSeq(['Leia o recado com calma. Depois responda.',700,c.q]);
+}
+function vJogo(){
+  const c=J.item;let corpo='';
+  const topo=`<div class="barra"><button class="btn" data-go="jogos">← Jogos</button><span class="chip">Nível ${J.nivel}</span>
+    <div class="pontos" aria-label="Rodada ${J.rodada+1} de ${J.total}">${Array.from({length:J.total},(_,k)=>`<i class="${k<J.rodada||(k===J.rodada&&J.fim)?'on':''}"></i>`).join('')}</div></div>`;
+  if(J.tipo==='letra'){
+    corpo=`<div class="cartao"><span class="rot">Que letra começa?</span><div class="figura" aria-hidden="true">${c.e}</div>
+      <div class="palavra-oculta"><u>${J.fim?c.p[0].toUpperCase():'&nbsp;'}</u>${c.p.slice(1).toUpperCase()}</div></div>
+      <div class="opcoes ${J.ops.length===4?'quatro':''}">${opsTexto('')}</div>`;
+  }
+  if(J.tipo==='completar'){
+    corpo=`<div class="cartao"><span class="rot">Complete a frase</span><div class="figura" aria-hidden="true">${c.e}</div>
+      <p class="frase">${c.f.replace('___',`<u>${J.fim?c.r:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}</u>`)}</p></div>
+      <div class="opcoes pal-ops">${opsTexto('pal')}</div>`;
+  }
+  if(J.tipo==='recado'){
+    corpo=`<div class="cartao"><span class="rot">Entenda o recado</span><div class="bilhete">${c.txt}</div>
+      <p class="pergunta">${c.q}</p></div>
+      <div class="opcoes pal-ops">${opsTexto('pal')}</div>`;
+  }
+  if(J.tipo==='montar'){
+    const prox=c.s[J.resp.length];const usados=J.resp.map(r=>r.k);
+    const dicaK=J.erros>0&&!J.fim?J.ops.findIndex((o,k)=>o.s===prox&&!usados.includes(k)):-1;
+    corpo=`<div class="cartao"><span class="rot">Monte a palavra</span><div class="figura" aria-hidden="true">${c.e}</div>
+      <div class="slots ${J.slotEstado}">${c.s.map((_,i)=>`<span class="slot ${J.resp[i]?'cheio':''}">${J.resp[i]?J.resp[i].s:''}</span>`).join('')}</div></div>
+      <div class="opcoes sil-ops">${J.ops.map((o,k)=>`<button class="op ${k===dicaK?'dica':''}" data-op="${k}" ${usados.includes(k)||J.fim?'disabled':''}>${o.s}</button>`).join('')}</div>
+      <button class="btn" data-act="desfazer" ${!J.resp.length||J.fim?'disabled':''}>Desfazer</button>`;
+  }
+  if(J.tipo==='placa'){
+    corpo=`<div class="cartao"><span class="rot">Leia a placa</span><div class="placa ${c.cor}">${c.txt}</div>
+      <p class="dica-txt">${J.erros>0&&!J.fim?`Ajuda: a placa começa com <b>${c.txt.split(' ')[0].slice(0,2)}</b>.`:'Qual figura combina com a placa?'}</p></div>
+      <div class="opcoes">${J.ops.map((o,k)=>`<button class="op emo ${J.fim&&o===c?'certo':''} ${J.errados.includes(o)?'errado':''}" data-op="${k}" aria-label="${o.nome}" ${J.fim||J.errados.includes(o)?'disabled':''}>${o.e}</button>`).join('')}</div>`;
+  }
+  return `${topo}${corpo}<p class="feedback ${J.classe}" role="status">${J.msg}</p>
+    <div class="acoes"><button class="btn" data-act="ouvir-rodada">${SOM} Ouvir de novo</button>
+    <button class="btn primary" data-act="seguir" ${J.fim?'':'disabled'}>${J.rodada+1>=J.total?'Ver resultado':'Continuar'}</button></div>`;
+}
+const ELOGIOS=['Muito bem!','Isso mesmo!','Excelente!','Você acertou!','Que beleza!'];
+function acertou(extra){J.fim=true;if(J.erros===0)J.acertos++;J.classe='bom';J.msg=ELOGIOS[Math.floor(Math.random()*ELOGIOS.length)];falar(J.msg+' '+extra);render()}
+function escolher(k){
+  if(!J||J.fim||J.bloq)return;const c=J.item;
+  if(['letra','completar','recado'].includes(J.tipo)){const o=J.ops[k];
+    if(o===J.certa)return acertou(J.tipo==='letra'?`${c.p} começa com ${o.toLowerCase()}.`:J.tipo==='completar'?c.f.replace('___',c.r).toLowerCase():`A resposta é ${c.r.toLowerCase()}.`);
+    J.errados.push(o);J.erros++;J.classe='mal';J.bloq=true;
+    J.msg='Quase! Vamos tentar de novo.';falar('Quase! Vamos tentar de novo.');render();
+    /* Recomeça a rodada em branco, automaticamente */
+    const rodada=J.rodada;
+    setTimeout(()=>{
+      if(!J||vista!=='jogo'||J.rodada!==rodada||J.fim)return;
+      J.errados=[];J.msg='';J.classe='';J.bloq=false;J.ops=shuffle(J.ops);render();
+      if(J.erros<2)return falarRodada();
+      if(J.tipo==='letra')falarSeq([`Escute o começo: ${c.s[0].toLowerCase()}`,500,c.p+'.',600,`Qual letra começa a palavra ${c.p}?`]);
+      if(J.tipo==='completar')falarSeq(['Escute a frase inteira:',500,c.f.replace('___',c.r).toLowerCase(),900,'Agora encontre essa palavra.']);
+      if(J.tipo==='recado')falarSeq(['Escute o recado:',500,c.txt.toLowerCase(),900,c.q]);
+    },1800);
+    return}
+  if(J.tipo==='montar'){J.resp.push({s:J.ops[k].s,k});J.slotEstado='';
+    if(J.resp.length===c.s.length){
+      if(J.resp.map(r=>r.s).join('')===c.s.join('')){J.slotEstado='certo';return acertou(`${c.s.join('... ').toLowerCase()}... ${c.p}.`)}
+      J.erros++;J.slotEstado='erro';J.classe='mal';J.msg='Ainda não. A sílaba com borda verde vem primeiro.';falar('Ainda não. Vamos tentar de novo.');render();
+      setTimeout(()=>{if(J&&!J.fim){J.resp=[];J.slotEstado='';render()}},1100);return}
+    falar(J.ops[k].s.toLowerCase());return render()}
+  if(J.tipo==='placa'){const o=J.ops[k];
+    if(o===c)return acertou(`Está escrito: ${c.nome}.`);
+    J.errados.push(o);J.erros++;J.classe='mal';J.msg='Quase! Olhe as primeiras letras.';falar('Quase! Olhe as primeiras letras da placa.');return render()}
+}
+function seguir(){J.rodada++;if(J.rodada>=J.total){
+    S.estrelas+=J.acertos;S.jogos[J.tipo]=Math.max(melhor(J.tipo),J.acertos);salvar();checarNivel();
+    ir('fimjogo');falar(`Você fez ${J.acertos} de ${J.total} de primeira. Parabéns!`+falaNivel());return}
+  novaRodada();render();setTimeout(falarRodada,200)}
+function vFimJogo(){
+  return `<div class="painel festa"><div class="estrelas">${'★'.repeat(J.acertos)}${'☆'.repeat(J.total-J.acertos)}</div>
+  <h2>${J.acertos>=4?'Que beleza':'Muito bem'}, ${esc(S.nome)}!</h2>
+  <p>Você acertou <b>${J.acertos} de ${J.total}</b> de primeira e ganhou ${J.acertos} estrela${J.acertos===1?'':'s'}. Cada tentativa também é aprendizado.</p></div>
+  ${bannerNivel()}
+  <div class="acoes"><button class="btn primary big full" data-jogo="${J.tipo}">Jogar de novo</button><button class="btn full" data-go="jogos">Outros jogos</button></div>`;
+}
+
+/* ---------- Escrever (caderno de caligrafia) ---------- */
+function vEscrever(){
+  const opts=escritaLista();
+  if(!opts.includes(escLetra))escLetra=opts[0];
+  return `<h1 style="font-size:2.2rem">Escrever</h1>
+  <p class="eyebrow">Passe o dedo (ou o mouse) por cima da letra clarinha, devagar.</p>
+  <div class="letras-esc" role="group" aria-label="Escolha o que escrever">
+    ${opts.map(l=>`<button data-letra="${esc(l)}" aria-pressed="${escLetra===l}" ${l.length>1?'style="padding:0 .8rem"':''}>${esc(l)}</button>`).join('')}
+  </div>
+  ${nivelAtual()<4?'<p class="dica-txt">Novas letras e palavras aparecem conforme você avança.</p>':''}
+  <div class="caderno"><canvas id="cad" aria-label="Área para escrever ${esc(escLetra)}"></canvas></div>
+  <p class="feedback" id="fb-esc" role="status"></p>
+  <div class="acoes"><button class="btn primary big full" data-act="feito">Pronto, escrevi!</button>
+  <button class="btn" data-act="limpar">Apagar</button><button class="btn" data-act="ouvir-letra">${SOM} Ouvir</button></div>`;
+}
+/* Nível 1: vogais. Nível 2: letras das famílias abertas. Nível 3: o próprio nome. Nível 4: palavras */
+function escritaLista(){
+  const n=nivelAtual();let l=['A','E','I','O','U'];
+  if(n>=2)l=l.concat(FAMS.filter((f,i)=>i===0||S.feitas[f.id]||S.demo).map(f=>f.titulo.slice(-1)));
+  const nome=semAcento(S.nome.trim().split(' ')[0]||'').toUpperCase();
+  if(n>=3&&nome)l.push(nome);
+  if(n>=4)l.push('RUA','CASA','FEIRA');
+  return [...new Set(l)];
+}
+function proximaLetra(){
+  const lista=escritaLista();
+  const i=lista.indexOf(escLetra);
+  return lista[(i+1)%lista.length];
+}
+function cor(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function montarCaderno(){
+  const cv=$('#cad');if(!cv)return;
+  const w=cv.parentElement.clientWidth,h=Math.min(Math.round(w*0.62),380),dpr=window.devicePixelRatio||1;
+  cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+  const g=cv.getContext('2d');g.scale(dpr,dpr);
+  const base=h*0.78,topo=h*0.18,meio=(base+topo)/2;
+  g.strokeStyle=cor('--line');g.lineWidth=2;
+  [topo,meio,base].forEach((y,i)=>{g.setLineDash(i===1?[8,8]:[]);g.beginPath();g.moveTo(12,y);g.lineTo(w-12,y);g.stroke()});
+  g.setLineDash([]);
+  let size=(base-topo)*1.25;g.font=`800 ${size}px "Baloo 2", sans-serif`;
+  while(g.measureText(escLetra).width>w-40&&size>20){size-=4;g.font=`800 ${size}px "Baloo 2", sans-serif`}
+  const gx=w/2,gy=base+size*0.04,fonte=g.font;
+  g.fillStyle=cor('--guide');g.textAlign='center';g.textBaseline='alphabetic';g.fillText(escLetra,gx,gy);
+  const fino=Math.max(8,size*0.06);
+  g.strokeStyle=cor('--ink');g.lineWidth=fino;g.lineCap='round';g.lineJoin='round';
+  /* Camadas invisíveis para conferir se a letra foi escrita */
+  const mk=lw=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});
+    x.font=fonte;x.textAlign='center';x.textBaseline='alphabetic';x.lineCap='round';x.lineJoin='round';if(lw)x.lineWidth=lw;return x};
+  const gM=mk();gM.fillText(escLetra,gx,gy);
+  const gL=mk(size*0.14);gL.fillText(escLetra,gx,gy);gL.strokeText(escLetra,gx,gy);
+  const uF=mk(fino),uG=mk(size*0.2);
+  cad={w,h,gM,gL,uF,uG,feito:false};
+  const fb=$('#fb-esc');if(fb){fb.textContent='';fb.className='feedback'}
+  const traco=(ctx,a,b)=>{ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke()};
+  const ponto=(ctx,p)=>{ctx.beginPath();ctx.arc(p[0],p[1],ctx.lineWidth/2,0,7);ctx.fill()};
+  let des=false,ult=null;
+  const pt=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  cv.onpointerdown=e=>{if(cad.feito)return;clearTimeout(chkT);des=true;ult=pt(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}
+    g.fillStyle=cor('--ink');ponto(g,ult);ponto(uF,ult);ponto(uG,ult)};
+  cv.onpointermove=e=>{if(!des)return;const p=pt(e);traco(g,ult,p);traco(uF,ult,p);traco(uG,ult,p);ult=p};
+  cv.onpointerup=cv.onpointercancel=()=>{if(!des)return;des=false;clearTimeout(chkT);chkT=setTimeout(()=>avaliarEscrita(false),900)};
+}
+let cad=null,chkT;
+function conferir(){
+  const {w,h,gM,gL,uF,uG}=cad;
+  const A=gM.getImageData(0,0,w,h).data,B=gL.getImageData(0,0,w,h).data,C=uF.getImageData(0,0,w,h).data,D=uG.getImageData(0,0,w,h).data;
+  let G=0,cob=0,U=0,dentro=0;
+  for(let y=0;y<h;y+=3)for(let x=0;x<w;x+=3){const k=(y*w+x)*4+3;
+    if(A[k]>60){G++;if(D[k]>60)cob++}
+    if(C[k]>60){U++;if(B[k]>60)dentro++}}
+  return {cobre:G?cob/G:0,preciso:U?dentro/U:0,tinta:U};
+}
+function avaliarEscrita(manual){
+  if(vista!=='escrever'||!cad||cad.feito)return;
+  const r=conferir(),fb=$('#fb-esc');
+  if(r.cobre>=0.6&&r.preciso>=0.75){
+    cad.feito=true;S.estrelas+=1;salvar();
+    if(fb){fb.textContent='Muito bem! Vamos para a próxima.';fb.className='feedback bom'}
+    falar('Muito bem! Vamos para a próxima.');
+    setTimeout(()=>{if(vista!=='escrever')return;escLetra=proximaLetra();render();
+      setTimeout(()=>falar(escLetra.length===1?`Agora a letra ${escLetra.toLowerCase()}`:`Agora escreva ${escLetra.toLowerCase()}`),300)},1900);
+  }else if(manual){
+    const t=r.tinta?'Quase! Passe o dedo por toda a letra clarinha.':'Passe o dedo por cima da letra clarinha.';
+    if(fb){fb.textContent=t;fb.className='feedback mal'}
+    falar(t);
+  }
+}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(vista==='escrever')montarCaderno()});
+let rsT;addEventListener('resize',()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(vista==='escrever')montarCaderno()},200)});
+
+/* ---------- Lia, a ajudante com IA ---------- */
+const SUGS=['Como se escreve FEIJÃO?','Me dê uma atividade fácil','O que quer dizer a palavra VENCIMENTO?','Quais palavras começam com M?'];
+function vLia(){
+  if(!chat.length)chat=[{de:'lia',txt:`Olá, ${S.nome}! Eu sou a Lia. Pode me perguntar como se escreve uma palavra, o que uma palavra quer dizer, ou pedir uma atividade.`}];
+  return `<h1 style="font-size:2.2rem">Lia</h1>
+  <p class="eyebrow">Sua ajudante com inteligência artificial. Ela responde com calma e frases curtas.</p>
+  <div class="chat" id="log">${chat.map((m,i)=>`<div class="msg ${m.de}"><span class="quem">${m.de==='lia'?'Lia':esc(S.nome)}</span><span class="corpo">${esc(m.txt)}</span>${m.de==='lia'&&m.txt?`<br><button class="link" data-ouvir-msg="${i}">Ouvir a resposta</button>`:''}</div>`).join('')}</div>
+  <div class="sugs">${SUGS.map(s=>`<button data-chip="${esc(s)}" ${pensando?'disabled':''}>${esc(s)}</button>`).join('')}</div>
+  <form class="envio" id="form-lia"><label for="pergunta" style="position:absolute;left:-9999px">Sua pergunta</label>
+    <input id="pergunta" autocomplete="off" placeholder="Escreva sua pergunta…" ${pensando?'disabled':''}>
+    <button class="btn primary" ${pensando?'disabled':''}>Enviar</button></form>`;
+}
+async function perguntar(txt){
+  txt=txt.trim();if(!txt||pensando)return;
+  chat.push({de:'eu',txt});chat.push({de:'lia',txt:'Pensando…'});pensando=true;render();
+  const idx=chat.length-1;
+  const sample=await liaPronta;
+  if(!sample){chat[idx].txt='Neste aparelho a Lia não está disponível agora. Você ainda pode usar as aulas, os jogos e a escrita.';pensando=false;return render()}
+  const hist=chat.slice(0,idx).slice(-8).map(m=>`${m.de==='lia'?'Lia':'Aluno'}: ${m.txt}`).join('\n');
+  const prompt=`Você é a Lia, ajudante do aplicativo Line School, que ajuda pessoas idosas a aprender a ler e escrever (Educação de Jovens e Adultos).
+Regras: fale português do Brasil, com carinho e respeito, tratando a pessoa como adulta (nunca infantilize). Use frases curtas e palavras simples, no máximo 4 frases. Quando mostrar uma palavra, escreva em LETRAS MAIÚSCULAS e separe as sílabas com hífen (exemplo: FEI-JÃO). Prefira palavras do dia a dia (casa, família, remédio, ônibus, feira). Elogie o esforço. Se pedirem atividade, proponha só uma, fácil. Não use markdown, listas, asteriscos nem emojis. Não dê conselhos médicos; para remédios, diga para confirmar com o farmacêutico ou médico.
+O nome da pessoa é ${S.nome}.
+
+Conversa até agora:
+${hist}
+
+Responda à última mensagem do aluno como Lia, só com o texto da resposta.`;
+  try{
+    const r=await sample(prompt,{cache:false,modelTier:'quick',onText:({text})=>{chat[idx].txt=text;const b=document.querySelectorAll('#log .msg .corpo');if(b[idx])b[idx].textContent=text}});
+    chat[idx].txt=(r&&r.text)||chat[idx].txt;pensando=false;render();falar(chat[idx].txt);
+  }catch(e){
+    const c=e&&e.code;
+    chat[idx].txt=c==='not_granted'?'Para conversar comigo, é preciso permitir o acesso à Lia quando o aplicativo perguntar.':c==='rate_limited'?'Muitas perguntas seguidas. Espere um minutinho e tente de novo.':'Não consegui responder agora. Tente de novo daqui a pouco.';
+    pensando=false;render();
+  }
+}
+
+/* ---------- Ajustes ---------- */
+function vAjustes(){
+  return `<h1 style="font-size:2.2rem">Ajustes</h1>
+  <div class="painel">
+    <form class="campo" id="form-nome"><label for="nome">Como você gosta de ser chamado(a)?</label>
+      <input id="nome" value="${esc(S.nomeExemplo?'':S.nome)}" placeholder="${esc(S.nome)}" autocomplete="given-name">
+      <button class="btn primary">Guardar nome</button></form>
+  </div>
+  <div class="painel"><span class="rot">Tamanho das letras</span>
+    <div class="grupo">${[[1,'Normal'],[1.18,'Grande'],[1.36,'Muito grande']].map(([v,r])=>`<button class="btn" data-escala="${v}" aria-pressed="${S.escala==v}">${r}</button>`).join('')}</div></div>
+  <div class="painel"><span class="rot">Velocidade da voz</span>
+    <div class="grupo">${[[0.85,'Normal'],[0.65,'Mais devagar']].map(([v,r])=>`<button class="btn" data-vel="${v}" aria-pressed="${S.vel==v}">${r}</button>`).join('')}
+    <button class="btn" data-act="teste-voz">${SOM} Testar</button></div></div>
+  <div class="painel"><span class="rot">Progresso</span>
+    <p>Seu progresso fica guardado neste aparelho.</p>
+    <button class="btn" data-act="apagar">${confirmaApagar?'Toque de novo para apagar tudo':'Começar do zero'}</button></div>
+  <div class="painel"><span class="rot">Para professores e pesquisadores</span>
+    <p>O modo demonstração abre todos os níveis, para apresentar ou testar o app. O progresso do aluno continua guardado.</p>
+    <button class="btn" data-act="demo" aria-pressed="${!!S.demo}">${S.demo?'Desligar o modo demonstração':'Ligar o modo demonstração'}</button></div>`;
+}
+
+/* ---------- Guias de voz por tela ---------- */
+function guia(){
+  const g={
+    inicio:`${saudacao()}, ${S.nome}. Esta é a tela inicial. Toque no botão verde para começar sua aula. Embaixo da tela estão os caminhos: aulas, jogos, escrever e Lia, sua ajudante.`,
+    aulas:'Aqui estão as aulas, separadas por nível. Toque em uma aula aberta para começar. As aulas com cadeado abrem quando você avança.',
+    jogos:'Escolha um jogo. Os jogos com cadeado abrem quando você sobe de nível.',
+    escrever:'Escolha uma letra no alto. Depois passe o dedo por cima da letra clarinha, devagar. Quando terminar, toque em pronto.',
+    lia:'Esta é a Lia. Toque em uma pergunta pronta, ou escreva a sua no espaço de baixo.',
+    ajustes:'Aqui você muda seu nome, o tamanho das letras e a velocidade da voz.',
+    parabens:'Parabéns! Você terminou a aula. Que tal praticar com um jogo?',
+    fimjogo:'O jogo terminou. Você pode jogar de novo ou escolher outro jogo.'};
+  if(vista==='aula')return falarCartao();
+  if(vista==='jogo')return falarRodada();
+  falar(g[vista]||'');
+}
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.go)return ir(d.go);
+  if(d.licao){const l=LICOES.find(x=>x.id===d.licao);if(!l||!licaoAberta(l))return toast('Esta aula ainda está fechada.');aula={id:d.licao,i:0};ir('aula');return setTimeout(falarCartao,200)}
+  if(d.jogo)return iniciarJogo(d.jogo);
+  if(d.op!==undefined)return escolher(+d.op);
+  if(d.letra){escLetra=d.letra;render();return falar(d.letra.length===1?`Letra ${d.letra.toLowerCase()}`:d.letra.toLowerCase())}
+  if(d.chip)return perguntar(d.chip);
+  if(d.ouvirMsg!==undefined)return falar(chat[+d.ouvirMsg].txt);
+  if(d.escala){S.escala=+d.escala;salvar();aplicarEscala();return render()}
+  if(d.vel){S.vel=+d.vel;salvar();render();return falar('Assim está bom?')}
+  switch(d.act){
+    case 'guia':return guia();
+    case 'ouvir-cartao':return falarCartao();
+    case 'ant':aula.i--;render();return falarCartao();
+    case 'prox':{const [l]=cartaoAtual();
+      if(aula.i<l.cards.length-1){aula.i++;render();return falarCartao()}
+      if(!S.feitas[l.id]){S.feitas[l.id]=true;S.estrelas+=3;salvar()}
+      checarNivel();
+      ir('parabens');return falar(`Parabéns, ${S.nome}! Você terminou a aula.`+falaNivel())}
+    case 'ouvir-rodada':return falarRodada();
+    case 'seguir':return seguir();
+    case 'desfazer':J.resp.pop();J.slotEstado='';return render();
+    case 'limpar':return montarCaderno();
+    case 'ouvir-letra':return falar(escLetra.length===1?`Letra ${escLetra.toLowerCase()}`:escLetra.toLowerCase());
+    case 'feito':clearTimeout(chkT);return avaliarEscrita(true);
+    case 'teste-voz':return falar(`Olá, ${S.nome}. Nunca é tarde para aprender.`);
+    case 'apagar':
+      if(!confirmaApagar){confirmaApagar=true;return render()}
+      Object.assign(S,{estrelas:0,feitas:{},jogos:{},nivelVisto:1});salvar();confirmaApagar=false;toast('Progresso apagado.');return render();
+    case 'demo':S.demo=!S.demo;salvar();toast(S.demo?'Todos os níveis estão abertos.':'Modo demonstração desligado.');return render();
+  }
+});
+document.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(e.target.id==='form-lia'){const i=$('#pergunta');const v=i.value;i.value='';return perguntar(v)}
+  if(e.target.id==='form-nome'){const v=$('#nome').value.trim();if(!v){toast('Escreva seu nome para guardar.');return}
+    S.nome=v.slice(0,30);S.nomeExemplo=false;salvar();toast('Nome guardado.');falar(`Prazer, ${S.nome}!`);ir('inicio')}
+});
+render();
+</script>
+
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+</body>
+</html>
